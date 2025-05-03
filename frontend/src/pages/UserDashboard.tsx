@@ -22,7 +22,7 @@ const UserDashboard = () => {
       });
 
       setSummary(res.data.summary.summary);
-      setAlert("✅ Summary successfully created! await for admin approval.");
+      setAlert("✅ Summary successfully created! wait for admin approval.");
       setInput("");
     } catch (err) {
       console.error(err);
