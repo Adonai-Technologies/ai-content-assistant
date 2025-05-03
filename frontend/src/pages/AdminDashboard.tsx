@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface Summary {
   id: number;
@@ -11,6 +12,7 @@ interface Summary {
 
 const AdminDashboard = () => {
   const [summaries, setSummaries] = useState<Summary[]>([]);
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const fetchSummaries = async () => {
@@ -36,13 +38,25 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/");
+  };
+
   useEffect(() => {
     fetchSummaries();
   }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow p-6 space-y-4">
+      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow p-6 space-y-4 relative">
+        <button
+          onClick={handleLogout}
+          className="absolute top-4 right-4 bg-gray-200 hover:bg-gray-300 text-sm text-gray-700 px-3 py-1 rounded"
+        >
+          Logout
+        </button>
+
         <h2 className="text-2xl font-semibold text-center">Admin Review Panel</h2>
 
         {summaries.length === 0 ? (
