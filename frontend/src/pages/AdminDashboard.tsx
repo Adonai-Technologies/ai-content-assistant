@@ -15,7 +15,7 @@ const AdminDashboard = () => {
 
   const fetchSummaries = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/review", {
+      const res = await axios.get("https://ai-content-assistant-07ej.onrender.com/review", {
         params: { user: user.username },
       });
       setSummaries(res.data);
@@ -26,7 +26,7 @@ const AdminDashboard = () => {
 
   const handleAction = async (id: number, action: "approved" | "rejected") => {
     try {
-      await axios.post(`http://localhost:3001/review/${id}`, {
+      await axios.post(`https://ai-content-assistant-07ej.onrender.com/review/${id}`, {
         user: user.username,
         action,
       });

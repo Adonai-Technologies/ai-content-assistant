@@ -13,13 +13,13 @@ export default function Admin() {
   const [summaries, setSummaries] = useState<Summary[]>([]);
 
   const fetchSummaries = async () => {
-    const res = await axios.get("http://localhost:3001/ai/review");
+    const res = await axios.get("https://ai-content-assistant-07ej.onrender.com/ai/review");
     setSummaries(res.data);
   };
 
   const handleAction = async (id: string, action: "approve" | "reject" | "publish") => {
     try {
-      await axios.post(`http://localhost:3001/ai/${action}`, { id });
+      await axios.post(`https://ai-content-assistant-07ej.onrender.com/ai/${action}`, { id });
       fetchSummaries(); // Refresh the list
     } catch (err: any) {
       alert(err.response?.data?.error || "Action failed");

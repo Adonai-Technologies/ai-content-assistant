@@ -4,6 +4,7 @@ import axios from "axios";
 const UserDashboard = () => {
   const [input, setInput] = useState("");
   const [summary, setSummary] = useState("");
+  const [statusMessage, setStatusMessage] = useState(""); // New state for status
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const handleSubmit = async () => {
@@ -11,18 +12,18 @@ const UserDashboard = () => {
       alert("You are not logged in.");
       return;
     }
-  
+
     try {
-      const res = await axios.post("http://localhost:3001/ai/summarize", {
+      const res = await axios.post("https://ai-content-assistant-07ej.onrender.com/ai/summarize", {
         content: input,
         user: user.username,
       });
       setSummary(res.data.summary);
+      setStatusMessage("Summary successfully created!"); // Set status message for success
     } catch (err: any) {
-      alert(err.response?.data?.error || "Something went wrong");
+      setStatusMessage(err.response?.data?.error || "Something went wrong"); // Set error message
     }
   };
-  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -44,8 +45,17 @@ const UserDashboard = () => {
           Summarize with AI
         </button>
 
+        {/* Show status message if available */}
+        {statusMessage && (
+          <div className="mt-4 p-3 rounded-md text-center">
+            <p className={`text-lg font-semibold ${statusMessage.includes("successfully") ? "text-green-500" : "text-red-500"}`}>
+              {statusMessage}
+            </p>
+          </div>
+        )}
+
         {summary && (
-          <div className="bg-gray-50 border border-gray-200 p-4 rounded-md">
+          <div className="bg-gray-50 border border-gray-200 p-4 rounded-md mt-4">
             <h3 className="text-lg font-medium text-gray-700 mb-2">Summary</h3>
             <p className="text-gray-800 whitespace-pre-wrap">{summary}</p>
           </div>
